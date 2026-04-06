@@ -1,42 +1,62 @@
 //
 //  GameViewController.swift
-//  LearnToFly
+//  CloudCatch
 //
 //  Created by AFP PAR 06 on 12/03/26.
 //
 
 import UIKit
 import SpriteKit
-import GameplayKit
 
 class GameViewController: UIViewController {
 
+    override func loadView() {
+        view = SKView(frame: .zero)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                
-                // Present the scene
-                view.presentScene(scene)
-            }
-            
-            view.ignoresSiblingOrder = true
-            
-            view.showsFPS = true
-            view.showsNodeCount = true
+        presentInitialSceneIfNeeded()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        presentInitialSceneIfNeeded()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if #available(iOS 26.0, *) {
+            setNeedsUpdateOfPrefersInterfaceOrientationLocked()
         }
     }
 
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
+    private func presentInitialSceneIfNeeded() {
+        guard let skView = view as? SKView else { return }
+
+        if skView.scene == nil || skView.scene?.size != skView.bounds.size {
+            let scene = IntroScene(size: skView.bounds.size)
+            scene.scaleMode = .aspectFill
+            skView.presentScene(scene)
         }
+
+        skView.ignoresSiblingOrder = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
+        skView.showsPhysics = false
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+
+    override var shouldAutorotate: Bool {
+        return false
+    }
+
+    @available(iOS 26.0, *)
+    override var prefersInterfaceOrientationLocked: Bool {
+        return true
     }
 
     override var prefersStatusBarHidden: Bool {
