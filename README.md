@@ -4,7 +4,7 @@ Cloud Catch è un gioco 2D sviluppato con SpriteKit in Xcode.
 
 Gameplay Preview
 
-[![Cloud Catch Gameplay](docs/thumbnail.png)](https://youtube.com/shorts/u_Kgsr9A8AA?feature=share)
+[![Cloud Catch Gameplay](docs/preview-thumbnail.png)](https://youtube.com/shorts/u_Kgsr9A8AA?feature=share)
 
 Requisiti
 
